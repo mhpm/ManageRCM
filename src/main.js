@@ -10,8 +10,8 @@ const fb = require('./firebaseInit.js')
 import 'bulma/css/bulma.css'
 import 'bulma-extensions/bulma-switch/dist/bulma-switch.min.css'
 import 'bulma-extensions/dist/bulma-extensions.min.css'
-// import Buefy from 'buefy'
-// Vue.use(Buefy)
+import Buefy from 'buefy'
+Vue.use(Buefy)
 
 import 'vue-awesome/icons/flag'
 import 'vue-awesome/icons'

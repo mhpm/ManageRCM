@@ -9,7 +9,7 @@
                 <div class="control">
                     <label class="laber">Cuatri.</label><br>
                     <div class="select">
-                        <select v-model="cuatrimestre">
+                        <select v-model="cuatrimestre" v-on:change="LoadData">
                             <option v-for="(cuatrimestre, index) in cuatrimestres" :key="index">{{cuatrimestre}}</option>
                         </select>
                     </div>
@@ -21,13 +21,10 @@
             </div>
         </div>
     </div>
-    <div class="columns is-centered">
-        <div class="column is-4">
-        </div>
-    </div>
+
     <div class="columns is-centered">
         <div class="column">
-            <table align="center" class="table is-bordered is-hoverable">
+            <!-- <table align="center" class="table is-bordered is-hoverable">
                 <thead>
                     <tr class="is-selected">
                         <th>Celula</th>
@@ -55,7 +52,58 @@
                     <th>{{Totales.Padres}}</th>
                     <th>{{Totales.Hijos}}</th>
                 </tfoot>
-            </table>
+            </table> -->
+
+             <b-table
+                    :data="Celulas"
+                    paginated
+                    per-page="7"
+                    hoverable
+                    narrowed
+                    detailed
+                    detail-key="Celula"
+                >
+                    <template slot-scope="Celula">
+                        <b-table-column field="Celula" label="Celula" width="40" numeric sortable>
+                            {{ Celula.row.Celula }}
+                        </b-table-column>
+
+                        <b-table-column field="Lider" label="Lider" sortable>
+                            {{ Celula.row.Lider }}
+                        </b-table-column>
+                        <b-table-column field="Padres" label="Padres" sortable>
+                            {{ Celula.row.TotalPadres }}
+                        </b-table-column>
+                        <b-table-column field="Hijos" label="Hijos" sortable>
+                            {{ Celula.row.TotalHijos }}
+                        </b-table-column>
+                    </template>
+
+                    <template slot="detail" slot-scope="Celula">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+
+                                    <ol>
+                                        <strong>Padres:</strong>
+                                        <li v-for="padre in Celula.row.Padres" :key="padre.index">
+                                            {{padre.nombre}}
+                                            <ul>
+                                                <li style="padding-left:1.7em"><strong>Hijos:</strong></li>
+                                                <li style="padding-left:1.7em" v-for="hijo in padre.hijos" :key="hijo.index">
+                                                    {{hijo.nombre}}
+                                                </li>
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    </ol>
+
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </b-table>
+
         </div>
     </div>
     <app-pageloader ref="pageloader" /> 
@@ -96,6 +144,7 @@
                 vm.API.GetQuatAmigosCelulasRef(vm.cuatrimestre).orderBy("Celula", 'asc').get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(docParent) {
                          if(docParent.exists){
+                             docParent.data().id = docParent.id;
                             vm.Totales.Padres += docParent.data().TotalPadres;
                             vm.Totales.Hijos += docParent.data().TotalHijos;
                             vm.Celulas.push(docParent.data());
@@ -125,4 +174,14 @@
     border-color: transparent;
     color: #fff;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+}
+
 </style>

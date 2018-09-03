@@ -12,6 +12,7 @@
                 <app-alert :msg="'Total Sectores: ' + Sectores.length"/>
             </div>
         </div>
+
         <div class="columns">
             <div class="column">
                 <b-table
@@ -23,7 +24,6 @@
                     hoverable
                     detail-key="Sector"
                 >
-
                     <template slot-scope="props">
                         <b-table-column field="Sector" label="Sector" width="40" numeric sortable>
                             {{ props.row.Sector }}
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-    // import 'buefy/lib/buefy.css'
+    import 'buefy/lib/buefy.css'
     export default {
         data(){
             return{

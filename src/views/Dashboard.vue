@@ -49,27 +49,27 @@
                     <tr class="is-selected">
                         <th>Celula</th>
                         <th>Lider</th>
-                        <th class="tooltip" data-tooltip="Miembros Asistentes">MA</th>
-                        <th class="tooltip" data-tooltip="Miembros Faltantes">MF</th>
-                        <th class="tooltip" data-tooltip="Capacitación al Equipo">CE</th>
-                        <th class="tooltip" data-tooltip="Planeacíon de Atención Pers.">AP</th>
-                        <th class="tooltip" data-tooltip="Visitas a Hnos Bautizados">VHB</th>
-                        <th class="tooltip" data-tooltip="Atención Personaliada">AP</th>
-                        <th class="tooltip" data-tooltip="Hnos Bautizados a Celebracións">HBC</th>
-                        <th class="tooltip" data-tooltip="Hnos No Bautizados a Celebracións">HNBC</th>
-                        <th class="tooltip" data-tooltip="Amigos a Celebracións">AC</th>
-                        <th class="tooltip" data-tooltip="Miembros Asistentes">MA</th>
-                        <th class="tooltip" data-tooltip="Miembros Faltantes">MF</th>
-                        <th class="tooltip" data-tooltip="Asignación de Privilegios">AP</th>
-                        <th class="tooltip" data-tooltip="Amigos Asistentes">AA</th>
-                        <th class="tooltip" data-tooltip="Hnos No Bautizados">HNB</th>
-                        <th class="tooltip" data-tooltip="Ofrenda">O</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Lider: Oración">ELO</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Lider: Lectura">ELL</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Lider: Ayunos">ELA</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Grupo: Oración">EGO</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Grupo: Lectura">EGL</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Grupo: Ayunos">EGA</th>
+                        <th>MA</th>
+                        <th>MF</th>
+                        <th>CE</th>
+                        <th>AP</th>
+                        <th>VHB</th>
+                        <th>AP</th>
+                        <th>HBC</th>
+                        <th>HNBC</th>
+                        <th>AC</th>
+                        <th>MA</th>
+                        <th>MF</th>
+                        <th>AP</th>
+                        <th>AA</th>
+                        <th>HNB</th>
+                        <th>O</th>
+                        <th>ELO</th>
+                        <th>ELL</th>
+                        <th>ELA</th>
+                        <th>EGO</th>
+                        <th>EGL</th>
+                        <th>EGA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,27 +106,27 @@
                      <tr class="is-selected">
                         <th>Celula</th>
                         <th>Lider</th>
-                        <th class="tooltip" data-tooltip="Miembros Asistentes">MA</th>
-                        <th class="tooltip" data-tooltip="Miembros Faltantes">MF</th>
-                        <th class="tooltip" data-tooltip="Capacitación al Equipo">CE</th>
-                        <th class="tooltip" data-tooltip="Planeacíon de Atención Pers.">AP</th>
-                        <th class="tooltip" data-tooltip="Visitas a Hnos Bautizados">VHB</th>
-                        <th class="tooltip" data-tooltip="Atención Personaliada">AP</th>
-                        <th class="tooltip" data-tooltip="Hnos Bautizados a Celebracións">HBC</th>
-                        <th class="tooltip" data-tooltip="Hnos No Bautizados a Celebracións">HNBC</th>
-                        <th class="tooltip" data-tooltip="Amigos a Celebracións">AC</th>
-                        <th class="tooltip" data-tooltip="Miembros Asistentes">MA</th>
-                        <th class="tooltip" data-tooltip="Miembros Faltantes">MF</th>
-                        <th class="tooltip" data-tooltip="Asignación de Privilegios">AP</th>
-                        <th class="tooltip" data-tooltip="Amigos Asistentes">AA</th>
-                        <th class="tooltip" data-tooltip="Hnos No Bautizados">HNB</th>
-                        <th class="tooltip" data-tooltip="Ofrenda">O</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Lider: Oración">ELO</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Lider: Lectura">ELL</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Lider: Ayunos">ELA</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Grupo: Oración">EGO</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Grupo: Lectura">EGL</th>
-                        <th class="tooltip" data-tooltip="Espiritualidad del Grupo: Ayunos">EGA</th>
+                        <th>MA</th>
+                        <th>MF</th>
+                        <th>CE</th>
+                        <th>AP</th>
+                        <th>VHB</th>
+                        <th>AP</th>
+                        <th>HBC</th>
+                        <th>HNBC</th>
+                        <th>AC</th>
+                        <th>MA</th>
+                        <th>MF</th>
+                        <th>AP</th>
+                        <th>AA</th>
+                        <th>HNB</th>
+                        <th>O</th>
+                        <th>ELO</th>
+                        <th>ELL</th>
+                        <th>ELA</th>
+                        <th>EGO</th>
+                        <th>EGL</th>
+                        <th>EGA</th>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -156,6 +156,37 @@
             </table>
         </div>
     </div>
+
+    <!-- <div class="columns is-mobil is-centered">
+        <div class="column is-12">
+            <b-table :data="Celulas">
+
+            <template slot-scope="props">
+                <b-table-column label="Celula" width="40" numeric>{{ props.row.Celula }}</b-table-column>
+                <b-table-column label="Lider" width="auto">{{ props.row.Lider }}</b-table-column>
+
+                <b-table-column field="RP.MA" label="MA">{{ props.row.RP.MA }}</b-table-column>
+                <b-table-column field="RP.MF" label="MF">{{ props.row.RP.MF }}</b-table-column>
+                <b-table-column field="RP.CE" label="CE">{{ props.row.RP.CE }}</b-table-column>
+                <b-table-column field="RP.AP" label="AP">{{ props.row.RP.AP }}</b-table-column>
+                
+                <b-table-column field="APC.VHB" label="VHB"> {{ props.row.APC.VHB   }}</b-table-column>
+                <b-table-column field="APC.AP" label="AP">   {{ props.row.APC.AP     }}</b-table-column>
+                <b-table-column field="APC.HBC" label="HBC"> {{ props.row.APC.HBC   }}</b-table-column>
+                <b-table-column field="APC.HNBC" label="HNBC">{{ props.row.APC.HNBC }}</b-table-column>
+                <b-table-column field="APC.AC" label="AC">{{ props.row.APC.AC }}</b-table-column>
+                <b-table-column field="RA.MA"  >{{ props.row.RA.MA }}</b-table-column>
+                <b-table-column field="RA.MF"  >{{ props.row.RA.MF }}</b-table-column>
+                <b-table-column field="RA.AP"  >{{ props.row.RA.AP }}</b-table-column>
+                <b-table-column field="RA.AA"  >{{ props.row.RA.AA }}</b-table-column>
+                <b-table-column field="RA.HNO">{{ props.row.RA.HNO }}</b-table-column>
+                <b-table-column field="RA.O"   >{{   props.row.RA.O }}</b-table-column>
+            </template>
+
+        </b-table>
+        </div>
+    </div> -->
+
     <app-pageloader ref="pageloader" /> 
     <app-api ref="api" />
 </div>
