@@ -21,9 +21,17 @@
             </div>
         </div>
     </div>
+    
+    <div class="columns is-centered">
+            <div class="column is-4">
+                 <app-alert 
+                    msg="Totales del Cuatrimestre" 
+                    :msgDesc="'Padres: ' + Totales.Padres + ' Hijos: ' + Totales.Hijos"/>
+            </div>
+        </div>
 
     <div class="columns is-centered">
-        <div class="column">
+        <div class="column is-6">
             <!-- <table align="center" class="table is-bordered is-hoverable">
                 <thead>
                     <tr class="is-selected">

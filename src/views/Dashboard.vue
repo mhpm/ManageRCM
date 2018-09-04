@@ -49,27 +49,27 @@
                     <tr class="is-selected">
                         <th>Celula</th>
                         <th>Lider</th>
-                        <th>MA</th>
-                        <th>MF</th>
-                        <th>CE</th>
-                        <th>AP</th>
-                        <th>VHB</th>
-                        <th>AP</th>
-                        <th>HBC</th>
-                        <th>HNBC</th>
-                        <th>AC</th>
-                        <th>MA</th>
-                        <th>MF</th>
-                        <th>AP</th>
-                        <th>AA</th>
-                        <th>HNB</th>
-                        <th>O</th>
-                        <th>ELO</th>
-                        <th>ELL</th>
-                        <th>ELA</th>
-                        <th>EGO</th>
-                        <th>EGL</th>
-                        <th>EGA</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Miembros Asistentes</span>MA</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Miembros Faltantes</span>MF</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Capacitación al Equipo</span>CE</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Planeacíon de Atención Pers.</span>AP</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Visitas Hnos. Bautizados</span>VHB</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Atención Personalizada</span>AP</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Hnos. Bautizados a Celebración</span>HBC</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Hnos N/B a Celebración</span>HNBC</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Amigos a Celebración</span>AC</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Miembros Asistentes</span>MA</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Miembros Faltantes</span>MF</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Asignación de Privilegios</span>AP</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Amigos Asistentes</span>AA</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Hnos N/B</span>HNB</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Ofrendas $</span>O</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Esp. Lider: Oración</span>ELO</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Esp. Lider: Lectura Biblica (Capitulos)</span>ELL</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Esp. Lider: Ayunos</span>ELA</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Esp. Grupo: Oración</span>EGO</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Esp. Grupo: Lectura Biblica (Capitulos)</span>EGL</th>
+                        <th class="tip"><span class="tiptext has-text-weight-light">Esp. Grupo: Ayunos</span>EGA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -360,5 +360,29 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.tip {
+    position: relative;
+}
+
+.tiptext {
+    visibility: hidden;
+    width: 180px;
+    background-color: hsl(0, 0%, 21%);
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 8px 0px;
+
+    /* Position the tooltip */
+    position: absolute;
+    top:-50px;
+    left: -60px;
+    z-index: 1;
+}
+
+.tip:hover .tiptext {
+    visibility: visible;
 }
 </style>
