@@ -295,7 +295,7 @@
                 var vm = this;
                 if(confirm("Seguro quieres eliminar este Reporte?")){ 
                     vm.Loader.Active('Eliminando')
-                    vm.API.GetQuatWeekCelulaRef(vm.cuatrimestre, vm.week, String(id)).delete().then(function() {
+                    vm.API.CuatrimestreRef.collection('ReportesSemana').doc(vm.week).collection('Celulas').doc(String(id)).delete().then(function() {
                         vm.LoadData()
                     }).catch(function(error) {
                         console.error("Error removing document: ", error);

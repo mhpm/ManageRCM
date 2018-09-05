@@ -357,21 +357,25 @@
                 vm.pageLoader.Active('Cargando Datos');
                 setTimeout(() => {
                     if(vm.Lider != false){
-                        vm.API.GetQuatWeekCelulaRef(vm.cuatrimestre, vm.docData.Verbo, vm.celula).get().then(function(doc) {
-                            if (doc.exists) {
-                                vm.docData = doc.data();
-                            } else {
-                                console.log("No such document!");
-                                vm.CleanForms();
-                            }
-                            vm.msgDesc = vm.Lider.nombre;
-                            vm.msg = 'Bienvenido';
-                            vm.pageLoader.Close()
-                            vm.loadingClass = '';
-                        }).catch(function(error) {
-                            console.log("Error getting document:", error);
-                            vm.pageLoader.Close()
-                        });
+
+                        vm.API.CuatrimestreRef.collection('ReportesSemana').doc(vm.docData.Verbo).collection('Celulas').doc(vm.celula).get()
+                            .then(function(doc) {
+                                if (doc.exists) {
+                                    vm.docData = doc.data();
+                                } else {
+                                    console.log("No such document!");
+                                    vm.CleanForms();
+                                }
+                                vm.msgDesc = vm.Lider.nombre;
+                                vm.msg = 'Bienvenido';
+                                vm.pageLoader.Close()
+                                vm.loadingClass = '';
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting document:", error);
+                                vm.pageLoader.Close()
+                            });
+                        
                     }else{ vm.pageLoader.Close() }
                 }, 3000);
             },
@@ -398,16 +402,19 @@
                 var vm = this;
                 vm.loadingClass = 'is-loading';
                 vm.Lider = false;
-                vm.API.GetCelulaRef(vm.celula).get().then(function(doc){
-                    if(doc.exists){
-                        vm.HasMetas()
-                    }else{
-                        vm.showReport = false;
-                        vm.msg = "Celula No Registrada";
-                        vm.msgDesc = "Contacta a tu Supervisor de RCM"
-                        vm.loadingClass = '';
-                        vm.CleanForms();
-                    }
+                vm.API.GetCelulasInfoRef().where("Celula", "==", parseInt(vm.celula))
+                    .get().then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                            if(doc.exists){
+                                vm.HasMetas()
+                            }else{
+                                vm.showReport = false;
+                                vm.msg = "Celula No Registrada";
+                                vm.msgDesc = "Contacta a tu Supervisor de RCM"
+                                vm.loadingClass = '';
+                                vm.CleanForms();
+                            }
+                        });
                 }).catch(function(error) {
                     console.log("Error getting document:", error);
                 });
@@ -419,8 +426,8 @@
                 vm.docData.Celula = parseInt(vm.celula);
                 vm.docData.Lider = vm.Lider.nombre;
                 vm.docData.formCheck[checkForm] = true;
-                vm.API.GetQuatWeekCelulaRef(vm.cuatrimestre, vm.docData.Verbo, vm.celula).set(vm.docData).then(function() {
-                    console.log("Document successfully written!");     
+                vm.API.CuatrimestreRef.collection('ReportesSemana').doc(vm.docData.Verbo).collection('Celulas').doc(vm.celula).set(vm.docData).then(function() {
+                    console.log("Document successfully written!");
                     vm.BtnCheck[checkForm] = true;
                     setTimeout(() => {
                         vm.BtnCheck[checkForm] = false;

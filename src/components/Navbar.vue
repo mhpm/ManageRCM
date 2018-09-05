@@ -42,7 +42,7 @@
                         Amigos Anotados
                     </router-link>
                     <span class="navbar-item has-text-primary">
-                        Version 3.7.0
+                        Version 3.7.5
                     </span>
                 </div>
             </div>

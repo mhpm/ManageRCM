@@ -34,7 +34,7 @@
                             </router-link>
                         </td>
                         <td>
-                            <a @click="Delete(celula.id)" class="button is-danger">
+                            <a @click="Delete(celula)" class="button is-danger">
                                 <span class="icon is-small">
                                     <i class="fas fa-trash"></i>
                                 </span>
@@ -85,17 +85,27 @@
                     console.log("Error getting documents: ", error);
                 });
             },
-            Delete(id){
+            Delete(celula){
                 var vm = this;
-                if(confirm("Seguro Quieres eliminar esta Celula?")){ 
-                    vm.API.GetCelulasInfoRef().doc(String(id)).delete().then(function() {
-                        console.log("Document successfully deleted!");
-                        vm.Loader.Active('Eliminando');
-                        vm.LoadData()
-                    }).catch(function(error) {
-                        console.error("Error removing document: ", error);
-                    })
-                }
+                vm.$dialog.confirm({
+                    title:'Alerta',
+                    message: `'Estas seguro de <b>Borrar</b> la Celula ${celula.Celula}?'`,
+                    type: 'is-danger',
+                    confirmText: 'Borrar',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa',
+                    onConfirm: () => {
+                        vm.API.GetCelulasInfoRef().doc(String(celula.id)).delete().then(function() {
+                            console.log("Document successfully deleted!");
+                            vm.Loader.Active('Eliminando');
+                            vm.Celulas = [];
+                            vm.LoadData()
+                        }).catch(function(error) {
+                            console.error("Error removing document: ", error);
+                        })
+                    }
+                })
             }
         }
     }

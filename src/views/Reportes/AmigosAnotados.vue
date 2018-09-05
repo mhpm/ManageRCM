@@ -182,15 +182,18 @@ import dateHelper from '@/mixins/DateHelper'
                 vm.Lider = false;
                 vm.CleanReport()
                 vm.msg = ''
-                vm.API.GetCelulaRef(vm.celula).get().then(function(doc){
-                    if(doc.exists){
-                        vm.HasMetas()
-                    }else{
-                        vm.showReport = false;
-                        vm.msg = "Celula No Registrada";
-                        vm.msgDesc = "Contacta a tu Supervisor de RCM"
-                        vm.loadingClass = '';
-                    }
+                vm.API.GetCelulasInfoRef().where("Celula", "==", parseInt(vm.celula))
+                    .get().then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                            if(doc.exists){
+                                vm.HasMetas()
+                            }else{
+                                vm.showReport = false;
+                                vm.msg = "Celula No Registrada";
+                                vm.msgDesc = "Contacta a tu Supervisor de RCM"
+                                vm.loadingClass = '';
+                            }
+                    });
                 }).catch(function(error) {
                     console.log("Error getting document:", error);
                 });

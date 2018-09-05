@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="field">
-                                <div class="control">     
+                                <div class="control">   
                                     <Datepicker v-model="docData.Lider.fecha" :format="customFormatter"></Datepicker>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@
                     <div class="columns">
                         <div class="column is-4">
                             <p class="title is-4 is-spaced">Metas de Asistencia</p>
-                            <div class="field"><input id="ce" v-model="bautizados" type="checkbox" name="ce" class="is-checkradio is-rtl"> <label  for="ce" class="label">Llevas Metas de bautismos? </label></div>
+                            <div class="field"><input id="ce" v-model="bautizados" type="checkbox" name="ce" class="is-checkradio is-rtl"><label  for="ce" class="label has-text-weight-light">Metas de asistencia con bautisados?</label></div>
                             <div v-show="bautizados">
                                 <div class="field">
                                     <div class="control has-icons-left">
@@ -339,9 +339,9 @@
                                 </div>
                             </div><br>
                         </div>
-                        <div class="column is-9">
+                        <div class="column is-9" v-if="docData.Metas.planeacion > 0 && bautizados">
                             <div class="columns">
-                                <div class="column" v-if="docData.Metas.planeacion > 0 && bautizados">     
+                                <div class="column">     
                                     <p class="title is-spaced">Miembros: {{docData.Miembros.length}}</p>
                                     <p class="subtitle is-6">Comprometidos en el Ciclo</p>
                                     <div class="columns">
@@ -547,8 +547,9 @@ import Datepicker from 'vuejs-datepicker';
                 }
             },
             created(){
+                moment.locale('es-us');
                 $(document).ready(function(){
-                    $('.vdp-datepicker div input').addClass('input');
+                    $('.vdp-datepicker div input').addClass('input').attr("placeholder", "Fecha de nacimiento");;
                 });
             },
             mounted(){
@@ -559,23 +560,27 @@ import Datepicker from 'vuejs-datepicker';
                 CelulaExist(){
                     var vm = this;
                     vm.Loader.Active('Cargando Datos');
-                    vm.API.GetCelulaRef(vm.celula).get().then(function(doc) {
-                         if (doc.exists) {
-                                vm.CleanForm()
-                                vm.docData.Celula = doc.data().Celula;
-                                vm.docData.Lider = doc.data().Lider;
-                                vm.docData.Asistente = doc.data().Asistente;
-                                vm.docData.Planeacion = doc.data().Planeacion;
-                                vm.docData.Alcance = doc.data().Alcance;
-                                vm.formShow = true;
-                                vm.LoadData()
-                            } else {
-                                vm.msg = "Celula No Registrada";
-                                vm.msgDesc = "Contacta a tu Supervisor de RCM"
-                                vm.formShow = false;
-                            }
+                    vm.API.GetCelulasInfoRef().where("Celula", "==", parseInt(vm.celula))
+                            .get().then(function(querySnapshot) {
+                                querySnapshot.forEach(function(doc) {
+                                    if(doc.exists){
+                                        vm.CleanForm()
+                                        vm.docData.id = doc.id;
+                                        vm.docData.Celula = doc.data().Celula;
+                                        vm.docData.Lider = doc.data().Lider;
+                                        vm.docData.Asistente = doc.data().Asistente;
+                                        vm.docData.Planeacion = doc.data().Planeacion;
+                                        vm.docData.Alcance = doc.data().Alcance;
+                                        vm.formShow = true;
+                                        vm.LoadData()
+                                    } else {
+                                        vm.msg = "Celula No Registrada";
+                                        vm.msgDesc = "Contacta a tu Supervisor de RCM"
+                                        vm.formShow = false;
+                                    }
                             vm.Loader.Close()
-                    }).catch(function (erro) {
+                            });
+                        }).catch(function (erro) {
                         console.log('Got Erro CelulaExist');
                         //vm.saveStatus = 'Sin Accesso a internet';
                         console.log(erro);
@@ -687,7 +692,6 @@ import Datepicker from 'vuejs-datepicker';
                         }
                 },
                 customFormatter(date) {
-                    moment.locale('es');
                     return moment(date).format('DD/MM/YYYY');
                 }
             }
