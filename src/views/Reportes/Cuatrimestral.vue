@@ -15,18 +15,20 @@
                     </p>
                 </div>
                 <app-alert :msg="msg" :msgDesc="msgDesc" v-show="msg != '' && celula != ''" />
+                
             </div>
         </div>
         <div class="columns is-centered">
-            <div class="column">       
+            <div class="column">
                 <form v-show="formShow && celula != ''" v-on:submit.prevent="SaveData">
                     <div class="columns">
                         <div class="column">
+                            <h6 class="subtitle is-6 has-text-danger">Campos en rojo son Requeridos</h6>      
                             <div class="field">
                                 <p class="title is-3 is-spaced">Datos Generales</p>
                                 <p class="subtitle is-5">Célula</p>
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Celula" type="number" placeholder="Número" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Celula" type="number" placeholder="Número" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required />
                                     <span class="icon is-small is-left">
                                         <icon name="hashtag" />
@@ -39,7 +41,7 @@
                                 <p class="title is-3 is-spaced">&nbsp;</p>
                                 <p class="subtitle is-5">Clasificación del Grupo</p>
                                 <div class="control has-icons-left">
-                                    <div class="select">
+                                    <div class="select is-danger">
                                         <select v-model="docData.Cgrupo">
                                             <option>Mixto</option>
                                             <option>Mujeres</option>
@@ -59,7 +61,7 @@
                             <p class="subtitle is-5">Líder</p>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Lider.nombre" type="text" placeholder="Nombre completo" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Lider.nombre" type="text" placeholder="Nombre completo" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="user" />
@@ -68,8 +70,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Lider.telefono" type="number" placeholder="Teléfono" oninvalid="this.setCustomValidity('Campos Obligatorios')"
-                                        oninput="setCustomValidity('')" required>
+                                    <input class="input is-medium" v-model="docData.Lider.telefono" type="number" placeholder="Teléfono"/>
                                     <span class="icon is-small is-left">
                                         <icon name="phone" />
                                     </span>
@@ -93,7 +94,7 @@
                             <p class="subtitle is-5">Asistente</p>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Asistente.nombre" type="text" placeholder="Nombre completo" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Asistente.nombre" type="text" placeholder="Nombre completo" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="user" />
@@ -102,8 +103,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Asistente.telefono" type="number" placeholder="Teléfono" oninvalid="this.setCustomValidity('Campos Obligatorios')"
-                                        oninput="setCustomValidity('')" required>
+                                    <input class="input is-medium" v-model="docData.Asistente.telefono" type="number" placeholder="Teléfono"/>
                                     <span class="icon is-small is-left">
                                         <icon name="phone" />
                                     </span>
@@ -124,6 +124,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="columns">
                         <div class="column">
                             <p class="title is-3 is-spaced">Reuniones</p>
@@ -131,7 +132,7 @@
                             <div class="field">
                                 <label class="laber">Día de reunión</label><br>
                                 <div class="control has-icons-left">
-                                    <div class="select is-medium">
+                                    <div class="select is-medium is-danger">
                                     <select v-model="docData.Planeacion.dia">
                                         <option v-for="(dia, index) in Dias" :key="index">{{dia}}</option>
                                     </select>
@@ -143,7 +144,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Planeacion.hora" type="text" placeholder="Hora" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Planeacion.hora" type="text" placeholder="Hora" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="clock-o" />
@@ -161,8 +162,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Planeacion.telAnfitrion" type="number" placeholder="Tel Anfitrión" oninvalid="this.setCustomValidity('Campos Obligatorios')"
-                                        oninput="setCustomValidity('')" required>
+                                    <input class="input is-medium" v-model="docData.Planeacion.telAnfitrion" type="number" placeholder="Tel Anfitrión">
                                     <span class="icon is-small is-left">
                                         <icon name="phone" />
                                     </span>
@@ -170,7 +170,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Planeacion.direccion" type="text" placeholder="Dirección" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Planeacion.direccion" type="text" placeholder="Dirección" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="map-marker" />
@@ -179,21 +179,21 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Planeacion.referencia" type="text" placeholder="Referencia" oninvalid="this.setCustomValidity('Campos Obligatorios')"
-                                        oninput="setCustomValidity('')" required>
+                                    <input class="input is-medium" v-model="docData.Planeacion.referencia" type="text" placeholder="Referencia">
                                     <span class="icon is-small is-left">
                                         <icon name="map-signs" />
                                     </span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="column">
                             <p class="title is-3 is-spaced">&nbsp;</p>
                             <p class="subtitle is-5">Alcance</p>
                             <div class="field">
                                 <div class="control has-icons-left">
                                     <label class="laber">Día de reunión</label><br>
-                                    <div class="select is-medium">
+                                    <div class="select is-medium is-danger">
                                     <select v-model="docData.Alcance.dia">
                                         <option v-for="(dia, index) in Dias" :key="index">{{dia}}</option>
                                     </select>
@@ -205,7 +205,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Alcance.hora" type="text" placeholder="Hora" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Alcance.hora" type="text" placeholder="Hora" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="clock-o" />
@@ -223,8 +223,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Alcance.telAnfitrion" type="number" placeholder="Tel Anfitrión" oninvalid="this.setCustomValidity('Campos Obligatorios')"
-                                        oninput="setCustomValidity('')" required>
+                                    <input class="input is-medium" v-model="docData.Alcance.telAnfitrion" type="number" placeholder="Tel Anfitrión"/>
                                     <span class="icon is-small is-left">
                                         <icon name="phone" />
                                     </span>
@@ -232,7 +231,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Alcance.direccion" type="text" placeholder="Dirección" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Alcance.direccion" type="text" placeholder="Dirección" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="map-marker" />
@@ -241,15 +240,16 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Alcance.referencia" type="text" placeholder="Referencia" oninvalid="this.setCustomValidity('Campos Obligatorios')"
-                                        oninput="setCustomValidity('')" required>
+                                    <input class="input is-medium" v-model="docData.Alcance.referencia" type="text" placeholder="Referencia" >
                                     <span class="icon is-small is-left">
                                         <icon name="map-signs" />
                                     </span>
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
                     <div class="columns">
                         <div class="column is-4">
                             <p class="title is-4 is-spaced">Metas de Asistencia</p>
@@ -295,7 +295,7 @@
                             <p class="subtitle is-4">Amigos</p>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Metas.amigosA" type="number" placeholder="Anotados" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Metas.amigosA" type="number" placeholder="Anotados" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="hashtag" />
@@ -304,7 +304,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Metas.amigosR" type="number" placeholder="Reunión de Alcance" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Metas.amigosR" type="number" placeholder="Reunión de Alcance" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="hashtag" />
@@ -313,7 +313,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Metas.amigosF" type="number" placeholder="Fiesta del Amigo" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Metas.amigosF" type="number" placeholder="Fiesta del Amigo" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="hashtag" />
@@ -322,7 +322,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Metas.amigosE" type="number" placeholder="Encuentro" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Metas.amigosE" type="number" placeholder="Encuentro" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="hashtag" />
@@ -331,7 +331,7 @@
                             </div>
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input class="input is-medium" v-model="docData.Metas.bautismos" type="number" placeholder="Bautismos" oninvalid="this.setCustomValidity('Campos Obligatorios')"
+                                    <input class="input is-medium is-danger" v-model="docData.Metas.bautismos" type="number" placeholder="Bautismos" oninvalid="this.setCustomValidity('Campos Obligatorios')"
                                         oninput="setCustomValidity('')" required>
                                     <span class="icon is-small is-left">
                                         <icon name="hashtag" />
@@ -342,8 +342,11 @@
                         <div class="column is-9" v-if="docData.Metas.planeacion > 0 && bautizados">
                             <div class="columns">
                                 <div class="column">     
-                                    <p class="title is-spaced">Miembros: {{docData.Miembros.length}}</p>
-                                    <p class="subtitle is-6">Comprometidos en el Ciclo</p>
+                                    <p class="title is-spaced">Miembros: {{docData.Miembros.length}} / {{docData.Metas.planeacion}}</p>
+                                    <p class="subtitle is-6">En esta sección debes agregar los datos de tus miembros(bautizados) comprometidos en el ciclo</p>
+                                    <div class="notification is-danger" v-if="docData.Miembros.length < docData.Metas.planeacion">
+                                        <p class="subtitle is-6 has-text-centered">Nota: el numero de bautizados que agreges debe ser igual al de tu meta en Reunión de Planeación</p>
+                                    </div>
                                     <div class="columns">
                                         <div class="column">
                                             <div class="field">
@@ -388,7 +391,7 @@
                                             </div>
                                         </div>
                                         <div class="column">
-                                            <a class="button is-success" v-on:click="AddRow(Miembro, docData.Miembros)" v-if="Miembro.nombre != ''">Agregar</a>
+                                            <a class="button is-success" v-on:click="AddRow(Miembro, docData.Miembros)" :disabled="Miembro.nombre == ''">Agregar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -444,10 +447,11 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="columns">
                         <div class="column">
                                 <div class="notification is-warning" v-if="docData.Miembros.length < docData.Metas.planeacion">
-                                    <p class="title has-text-centered">No olvides registrar tus miembros comprometidos</p>
+                                    <p class="is-subtitle is-4 has-text-centered">No olvides registrar tus miembros comprometidos</p>
                                 </div>
                                 <div class="columns is-centered">
                                     <div class="column is-5">
@@ -547,6 +551,7 @@ import Datepicker from 'vuejs-datepicker';
                 }
             },
             created(){
+
                 moment.locale('es-us');
                 $(document).ready(function(){
                     $('.vdp-datepicker div input').addClass('input').attr("placeholder", "Fecha de nacimiento");;

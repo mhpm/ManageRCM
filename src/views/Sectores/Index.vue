@@ -108,7 +108,6 @@
 </template>
 
 <script>
-    import 'buefy/lib/buefy.css'
     export default {
         data(){
             return{

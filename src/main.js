@@ -11,6 +11,7 @@ import 'bulma/css/bulma.css'
 import 'bulma-extensions/bulma-switch/dist/bulma-switch.min.css'
 import 'bulma-extensions/dist/bulma-extensions.min.css'
 import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
 Vue.use(Buefy)
 
 import 'vue-awesome/icons/flag'
