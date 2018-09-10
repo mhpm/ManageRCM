@@ -162,11 +162,11 @@
             IdExist(id){
                 var vm = this
                 if(id != '' && id != null){
-                    vm.API.GetCelulasInfoRef().doc(String(id)).get().then(function(doc) {
-                            if(doc.exists)
-                                vm.celulaError = true;    
-                            else
-                                vm.celulaError = false;
+                    vm.API.GetCelulasInfoRef().where("Celula", "==", parseInt(id)).get().then(function(query) {             
+                        if(query.docs.length>0)
+                            vm.celulaError = true
+                        else
+                            vm.celulaError = false
                     });
                 }else
                     vm.celulaError = false;

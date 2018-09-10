@@ -55,10 +55,15 @@
                                 <span>Admin</span>
                             </a>
                         </p>
+                        <p v-else-if="IsAdmin" class="control">
+                            <router-link class="navbar-item button is-primary" to="/User">
+                                <i class="fas fa-user"></i>&nbsp;Perfil
+                             </router-link>
+                        </p>
                         <p class="control">
                             <a class="button is-dark" v-on:click="LogOut">
                                 <icon name="sign-out" />
-                                <span>Cerrar Sesion</span>
+                                <span>&nbsp;Cerrar Sesion</span>
                             </a>
                         </p>
                     </div>

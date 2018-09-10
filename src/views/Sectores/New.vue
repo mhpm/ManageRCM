@@ -114,9 +114,9 @@
                     vm.API.GetSectoresRef().doc(id).get().then(function(doc){
                         if(doc.exists)
                         vm.sectorError = true
-                    else
-                    vm.sectorError = false
-                 })
+                        else
+                        vm.sectorError = false
+                    })
                 }
             },
             CleanForm(){

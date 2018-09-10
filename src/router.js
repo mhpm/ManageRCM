@@ -21,6 +21,8 @@ import Cuatrimestral from './views/Reportes/Cuatrimestral'
 import AmigosAnotados from './views/Reportes/AmigosAnotados'
 import Amigos from './views/Reportes/Amigos'
 
+import User from "./views/User/Index";
+
 Vue.use(Router)
 
 export default new Router({
@@ -42,7 +44,8 @@ export default new Router({
     { path: '/CelulasEdit/:id', name:'CelulasEdit', component: CelulasEdit, props: true },
     { path: '/Cuatrimestral', name:'Cuatrimestral', component: Cuatrimestral },
     { path: '/AmigosAnotados', name:'AmigosAnotados', component: AmigosAnotados},
-    { path: '/Amigos', name:'Amigos', component: Amigos}
+    { path: '/Amigos', name:'Amigos', component: Amigos},
+    { path: '/User', name:'User', component: User}
   ],
   mode:'history'
 })

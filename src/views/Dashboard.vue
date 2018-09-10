@@ -9,7 +9,7 @@
                 <div class="control">
                     <label class="laber">Cuatri.</label><br>
                     <div class="select">
-                        <select v-model="cuatrimestre">
+                        <select v-model="cuatrimestre" v-on:change="LoadData">
                             <option v-for="(cuatrimestre, index) in cuatrimestres" :key="index">{{cuatrimestre}}</option>
                         </select>
                     </div>
@@ -17,7 +17,7 @@
                 <p class="control">
                     <label class="laber">Verbo</label><br>
                     <span class="select">
-                        <select v-model="week">
+                        <select v-model="week" v-on:change="LoadData">
                             <option v-for="(verbo, index) in verbos" :key="index">{{verbo}}</option>
                         </select>
                     </span>

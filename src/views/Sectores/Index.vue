@@ -86,7 +86,7 @@
                                                 </router-link>
                                             </b-table-column>
                                             <b-table-column field="Borrar" label="Borrar" centered>
-                                                <a @click="DeleteSub(subs.row.SubSector)" class="button is-small is-light">
+                                                <a @click="DeleteSub(subs.row.id)" class="button is-small is-light">
                                                     <span class="icon is-small">
                                                         <i class="fas fa-trash fa-sm"></i>
                                                     </span>
@@ -119,9 +119,7 @@
             setTimeout(() => {
                 this.LoadData()
             }, 1500);
-            setTimeout(() => {
-                this.LoadSubSector()
-            }, 3000);
+            
         },
         mounted(){
             this.API = this.$refs.api;
@@ -130,7 +128,13 @@
         },
         methods:{
             LoadData(){
-                var vm = this;
+                this.LoadSectores()
+                setTimeout(() => {
+                    this.LoadSubSector()
+                }, 3000);
+            },
+            LoadSectores(){
+                 var vm = this;
                 vm.Sectores=[]
                 vm.API.GetSectoresRef().orderBy("Sector", 'asc').get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
@@ -176,7 +180,7 @@
                         vm.Loader.Active('Eliminando');
                         vm.API.GetSectoresRef().doc(String(id)).delete().then(function() {
                             console.log("Document successfully deleted!");
-                            //vm.LoadData()
+                            vm.LoadData()
                             vm.Loader.Close();
                         }).catch(function(error) {
                             console.error("Error removing document: ", error);
@@ -198,7 +202,7 @@
                         vm.Loader.Active('Eliminando');
                         vm.API.GetSubSectoresRef().doc(String(id)).delete().then(function() {
                             console.log("Document successfully deleted!");
-                            //vm.LoadData()
+                            vm.LoadData()
                             vm.Loader.Close();
                         }).catch(function(error) {
                             console.error("Error removing document: ", error);

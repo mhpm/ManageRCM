@@ -25,6 +25,8 @@ import dateHelper from '../mixins/DateHelper'
             DataBaseRef(){
                 var vm = this;
                 vm.IglesiaRef = firebase.iglesiasCollection.doc(firebase.currentUser.email);
+                console.log(vm.IglesiaRef.id);
+                
                 vm.CicloRef = vm.IglesiaRef.collection('Ciclos').doc(String(vm.date.getFullYear()));
                 vm.CuatrimestreRef = vm.CicloRef.collection('Cuatrimestres').doc(vm.cuatrimestre);
                 vm.SemanaRef = vm.CuatrimestreRef.collection('ReportesSemana').doc(vm.week);

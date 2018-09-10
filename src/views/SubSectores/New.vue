@@ -19,7 +19,7 @@
                 <div class="field">
                     <span class="label">SubSector</span>
                     <p class="control has-icons-left">
-                        <input v-model="SubSector" class="input is-medium" min="1" step="1" type="number" placeholder="">
+                        <input v-model="SubSector" class="input is-medium" min="1" step="1" type="number" placeholder="" v-on:keyup="IdExist(SubSector)">
                         <span class="icon is-small is-left">
                             <icon name="hashtag" />
                         </span>
@@ -139,6 +139,17 @@
                 this.selectedSector = this.Sectores.filter((sector) =>{
                     return sector.Sector == this.docData.Sector
                 }) 
+            },
+            IdExist(id){
+                var vm = this
+                if(id != '' && id != null){
+                    vm.API.GetSubSectoresRef().doc(id).get().then(function(doc){
+                        if(doc.exists)
+                        vm.sectorError = true
+                    else
+                    vm.sectorError = false
+                 })
+                }
             },
             CleanForm(){
                 this.SubSector = '';
