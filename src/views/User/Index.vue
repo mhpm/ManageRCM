@@ -32,12 +32,12 @@
                     </b-input>
                 </b-field>
 
-                <b-field label="Contraseña General">
+                <!-- <b-field label="Contraseña General">
                     <b-input type="password"
                         :value="docData.GeneralPass"
                         password-reveal>
                     </b-input>
-                </b-field>
+                </b-field> -->
 
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control">

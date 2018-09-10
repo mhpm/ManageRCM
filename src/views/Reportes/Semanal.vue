@@ -11,7 +11,7 @@
                         <div class="control">
                             <label class="laber">Cuatri.</label><br>
                             <div class="select">
-                                <select v-model="cuatrimestre">
+                                <select v-model="cuatrimestre" :disabled="disabledControls">
                                     <option v-for="(cuatrimestre, index) in cuatrimestres" :key="index">{{cuatrimestre}}</option>
                                 </select>
                             </div>
@@ -19,14 +19,14 @@
                         <p class="control">
                             <label class="laber">Verbo</label><br>
                             <span class="select is-primary">
-                                <select v-model="docData.Verbo" v-on:change="onChange">
+                                <select v-model="docData.Verbo" v-on:change="onChange" :disabled="disabledControls">
                                     <option v-for="(verbo, index) in verbos" :key="index">{{verbo}}</option>
                                 </select>
                             </span>
                         </p>
                         <p class="control">
                             <label class="laber">Celula</label><br>
-                            <input class="input" v-model="celula" v-on:keyup="keymonitor" type="number" placeholder="# Celula" />
+                            <input class="input" v-model="celula" v-on:keyup="keymonitor" type="number" placeholder="# Celula" :disabled="disabledControls" />
                         </p>
                         <p class="control">
                             <br>
@@ -258,6 +258,7 @@
         mixins:[dateHelper],
         data(){
             return{
+                disabledControls:false,
                 isLoading:false,
                 showReport:false,
                 BtnCheck:{
@@ -362,8 +363,10 @@
                             .then(function(doc) {
                                 if (doc.exists) {
                                     vm.docData = doc.data();
+                                    vm.disabledControls = true;
                                 } else {
                                     console.log("No such document!");
+                                    vm.disabledControls = true;
                                     vm.CleanForms();
                                 }
                                 vm.msgDesc = vm.Lider.nombre;
