@@ -3,7 +3,8 @@
         <div class="columns is-centered">
             <div class="column is-5">
                 <div class="notification is-primary has-text-centered">
-                    <h1 class="title is-1">Nuevo SubSector</h1>
+                    <h1 class="title is-1">Sector {{id}}</h1>
+                    <div class="subtitle">Nuevo SubSector</div>
                 </div>
             </div>
         </div>
@@ -24,6 +25,7 @@
                             <icon name="hashtag" />
                         </span>
                     </p>
+                     <p class="help has-text-danger" v-show="SubExists">{{SubExists}} Ya existe un Subsector {{SubSector}} en el Sector {{id}}</p>
                 </div>
                 <div class="field">
                     <span class="label">Supervisor</span>
@@ -59,7 +61,7 @@
                 </div>
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control">
-                        <button @click="SaveData" class="button is-success" :disabled="docData.SubSector=='' || docData.Sector=='' || docData.Supervisor.Nombre=='' || docData.Auxiliar.Nombre==''">
+                        <button @click="SaveData" class="button is-success" :disabled="docData.SubSector=='' || docData.Supervisor.Nombre=='' || docData.Auxiliar.Nombre=='' || SubExists || SubSector == ''">
                             Agregar
                         </button>
                     </p>
@@ -81,8 +83,8 @@
         props:['id'],
         data(){
             return{
-                Sectores:[],
-                selectedSector:null,
+                SubSectores:[],
+                SubExists:false,
                 SubSector:'',
                 msg:'',
                 docData:{
@@ -107,7 +109,7 @@
             this.Loader = this.$refs.pageloader;
             this.API = this.$refs.api;
              setTimeout(() => {
-               //this.LoadData()
+               this.LoadSubSectores()
             }, 1000);
         },
         methods:{
@@ -115,6 +117,7 @@
                 var vm = this;
                 vm.Loader.Active('Guardando');
                 vm.docData.SubSector = parseInt(vm.SubSector);
+                vm.docData.Sector = parseInt(vm.id);
                 vm.API.GetSubSectoresRef().doc().set(vm.docData).then(function() {
                     console.log("Document successfully written!");
                     vm.msg = 'Datos Guardados!';
@@ -125,37 +128,30 @@
                     vm.Loader.Close()
                 });
             },
-            LoadData(){
+            LoadSubSectores(){
                 var vm = this
-                 this.API.GetSectoresRef().get().then(function(querySnapshot) {
+                vm.SubSectores = []
+                 this.API.GetSubSectoresRef().get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
-                        // doc.data() is never undefined for query doc snapshots
-                        console.log(doc.id, " => ", doc.data());
-                        vm.Sectores.push(doc.data())
+                        vm.SubSectores.push(doc.data())
                     });
                 });
             },
-            onSelectSector(){
-                this.selectedSector = this.Sectores.filter((sector) =>{
-                    return sector.Sector == this.docData.Sector
-                }) 
-            },
             IdExist(id){
-                var vm = this
+                let vm = this 
                 if(id != '' && id != null){
-                    vm.API.GetSubSectoresRef().doc(id).get().then(function(doc){
-                        if(doc.exists)
-                        vm.sectorError = true
-                    else
-                    vm.sectorError = false
-                 })
-                }
+                    vm.SubSectores.forEach((sub) =>{ 
+                        if( sub.Sector == vm.id && sub.SubSector == vm.SubSector)
+                            vm.SubExists = true;
+                    })
+                }else
+                    vm.SubExists = false
             },
             CleanForm(){
+                this.SubExists=false;
                 this.SubSector = '';
                 this.docData ={
-                    Sector:null,
-                    SubSector:'',
+                    SubSector:null,
                     Supervisor:{
                         Nombre:'',
                         Telefono:'',
@@ -168,6 +164,7 @@
                     },
                     Celulas:[]
                 }
+                this.LoadSubSectores()
             }
         }
     }

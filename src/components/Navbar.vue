@@ -18,12 +18,12 @@
             <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Celulas">
                 Celulas
             </router-link>
-            <!-- <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Sectores">
+            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Sectores">
                 Sectores
             </router-link>
              <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="SubSectores">
                 SubSectores
-            </router-link> -->
+            </router-link>
             <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Amigos">
                 Amigos
             </router-link>

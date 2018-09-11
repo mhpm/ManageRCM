@@ -95,7 +95,6 @@
         methods:{
             SaveData(){
                 var vm = this;
-
                 vm.Loader.Active('Guardando');
                 vm.docData.Sector = parseInt(vm.Sector);
                 vm.API.GetSectoresRef().doc(vm.Sector).set(vm.docData).then(function() {

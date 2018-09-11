@@ -1,9 +1,10 @@
 <template>
     <div class="new">
         <div class="columns is-centered">
-            <div class="column is-5">
+            <div class="column is-6">
                 <div class="notification is-primary has-text-centered">
-                    <h1 class="title is-1">Nuevo SubSector</h1>
+                    <h1 class="title is-1">Sector {{docData.Sector}}</h1>
+                    <div class="subtitle">SubSector {{docData.SubSector}}</div>
                 </div>
             </div>
         </div>
@@ -19,7 +20,7 @@
                 <div class="field">
                     <span class="label">SubSector</span>
                     <p class="control has-icons-left">
-                        <input v-model="docData.SubSector" class="input is-medium" type="number" placeholder="numero">
+                        <input v-model="docData.SubSector" class="input is-medium" type="number" placeholder="numero" disabled>
                         <span class="icon is-small is-left">
                             <icon name="hashtag" />
                         </span>
@@ -43,7 +44,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="field">
+                <!-- <div class="field">
                     <span class="label">Sector</span>
                     <p class="control has-icons-left">
                         <input v-model="docData.Sector" class="input is-medium" type="number" placeholder="numero">
@@ -51,7 +52,7 @@
                             <icon name="hashtag" />
                         </span>
                     </p>
-                </div>
+                </div> -->
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control has-icons-left">
                         <button @click="SaveData" class="button is-success" :disabled="docData.SubSector=='' || docData.Sector=='' || docData.Supervisor.Nombre=='' || docData.Auxiliar.Nombre==''">
@@ -60,7 +61,7 @@
                         </button>
                     </p>
                     <p class="control">
-                        <router-link to="../SubSectores" class="button">
+                        <router-link to="../Sectores" class="button">
                             Volver
                         </router-link>
                     </p>
@@ -111,7 +112,7 @@
             SaveData(){
                 var vm = this;
                 vm.Loader.Active('Guardando');
-                vm.API.GetSubSectoresRef().doc(String(vm.docData.SubSector)).set(vm.docData).then(function() {
+                vm.API.GetSubSectoresRef().doc(vm.id).set(vm.docData).then(function() {
                     console.log("Document successfully written!");
                     vm.msg = 'Datos Guardados!';
                     setTimeout(() => {

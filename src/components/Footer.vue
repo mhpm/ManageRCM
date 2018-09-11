@@ -23,12 +23,9 @@ export default {
 .footer {
   background-color: #fafafa;
   position: relative;
-  left: 0;
-  right: 0;
-  bottom: 0;
   height:30px;   /* Height of the footer */
   padding-bottom: -3px;
-  margin: 0;
+  top: -10vh;
   color: #aaa;
 }
 </style>

@@ -64,7 +64,7 @@
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                   <b-table :data="props.row.SubSectores">
+                                   <b-table :data="props.row.SubSectores" :loading="isLoading">
                                         <template slot-scope="subs">
                                             <b-table-column field="SubSector" label="SubSector" width="40" numeric sortable>
                                                 {{ subs.row.SubSector }}
@@ -112,7 +112,8 @@
         data(){
             return{
                 Sectores:[],
-                SubSectores:[]
+                SubSectores:[],
+                isLoading: false
             }
         },
         created(){
@@ -152,13 +153,14 @@
                var subs = [];
                vm.Sectores.forEach((sector) => {
                    sector.SubSectores = [];
-                    vm.API.GetSubSectoresRef().where("Sector", "==", String(sector.Sector)).get().then(function(querySnapshot) {
+                    vm.API.GetSubSectoresRef().where("Sector", "==", sector.Sector).get().then(function(querySnapshot) {
                         querySnapshot.forEach(function(doc) {
                             let subsector = doc.data();
                             subsector.id = doc.id;
                             sector.SubSectores.push(subsector)
                         });
                         vm.Loader.Close();
+                        vm.isLoading = false;
                     })
                     .catch(function(error) {
                         console.log("Error getting documents: ", error);
@@ -199,11 +201,10 @@
                     icon: 'times-circle',
                     iconPack: 'fa',
                     onConfirm: () => {
-                        vm.Loader.Active('Eliminando');
+                        vm.isLoading = true;
                         vm.API.GetSubSectoresRef().doc(String(id)).delete().then(function() {
                             console.log("Document successfully deleted!");
-                            vm.LoadData()
-                            vm.Loader.Close();
+                            vm.LoadSubSector()
                         }).catch(function(error) {
                             console.error("Error removing document: ", error);
                         })
