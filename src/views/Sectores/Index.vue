@@ -64,7 +64,8 @@
                         <article class="media">
                             <div class="media-content">
                                 <div class="content">
-                                   <b-table :data="props.row.SubSectores" :loading="isLoading">
+
+                                   <b-table :data="props.row.SubSectores" :loading="isLoading" narrowed detailed>
                                         <template slot-scope="subs">
                                             <b-table-column field="SubSector" label="SubSector" width="40" numeric sortable>
                                                 {{ subs.row.SubSector }}
@@ -93,7 +94,32 @@
                                                 </a>
                                             </b-table-column>
                                         </template>
+                                        <template slot="detail" slot-scope="subs">
+                                            <article class="media">
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <b-table :data="subs.row.Celulas">
+                                                            <template slot-scope="celulas">
+                                                                 <b-table-column field="" label="">
+                                                                    
+                                                                </b-table-column>
+                                                                <b-table-column field="Celula" label="Celula" width="40" sortable numeric>
+                                                                    {{ celulas.row.Celula }}
+                                                                </b-table-column>
+                                                                <b-table-column field="Lider.nombre" label="Lider">
+                                                                    {{ celulas.row.Lider.nombre }}
+                                                                </b-table-column>
+                                                                <b-table-column field="Asistente.nombre" label="Asistente">
+                                                                    {{ celulas.row.Asistente.nombre }}
+                                                                </b-table-column>
+                                                            </template>
+                                                        </b-table>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                         </template>
                                    </b-table>
+
                                 </div>
                             </div>
                         </article>
@@ -113,7 +139,23 @@
             return{
                 Sectores:[],
                 SubSectores:[],
-                isLoading: false
+                isLoading: false,
+                celulaColumns:[
+                    {
+                        field: '',
+                        label: '',
+                    },
+                    {
+                        field: 'Celula',
+                        label: 'Celula',
+                        width: '40',
+                        numeric: true
+                    },
+                    {
+                        field: 'Lider.nombre',
+                        label: 'Lider',
+                    }
+                ]
             }
         },
         created(){
@@ -130,17 +172,20 @@
         methods:{
             LoadData(){
                 this.LoadSectores()
-                setTimeout(() => {
-                    this.LoadSubSector()
-                }, 3000);
             },
             LoadSectores(){
                  var vm = this;
                 vm.Sectores=[]
                 vm.API.GetSectoresRef().orderBy("Sector", 'asc').get().then(function(querySnapshot) {
+                    let count = 0;
                     querySnapshot.forEach(function(doc) {
+                        count += 1;       
                         let sector = doc.data()
                         vm.Sectores.push(sector);
+                        if(count >= querySnapshot.docs.length){
+                            console.log('finished Sectores');
+                            vm.LoadSubSector()
+                        }
                     });
                 })
                 .catch(function(error) {
@@ -150,22 +195,59 @@
             },
             LoadSubSector(){
                var vm = this
-               var subs = [];
-               vm.Sectores.forEach((sector) => {
-                   sector.SubSectores = [];
-                    vm.API.GetSubSectoresRef().where("Sector", "==", sector.Sector).get().then(function(querySnapshot) {
-                        querySnapshot.forEach(function(doc) {
-                            let subsector = doc.data();
-                            subsector.id = doc.id;
-                            sector.SubSectores.push(subsector)
+                vm.API.GetSubSectoresRef().get().then(function(querySnapshot) {
+                    let count = 0;
+                    querySnapshot.forEach(function(doc) {
+                        count += 1;
+                        let subsector = doc.data();
+                        subsector.id = doc.id;
+
+                        vm.Sectores.find((sector) => {
+                            if(sector.Sector == subsector.Sector)
+                                sector.SubSectores.push(subsector)
                         });
-                        vm.Loader.Close();
-                        vm.isLoading = false;
-                    })
-                    .catch(function(error) {
-                        console.log("Error getting documents: ", error);
-                        vm.Loader.Close();
+
+                        if(count >= querySnapshot.docs.length){
+                            console.log('finished Subs');                
+                            vm.LoadCelulas()
+                            vm.Loader.Close();
+                            vm.isLoading = false;
+                        }
                     });
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                    vm.Loader.Close();
+                });
+            },
+            LoadCelulas(){
+                var vm = this
+                vm.API.GetCelulasInfoRef().get().then(function(querySnapshot) {
+                    let count = 0;
+                    querySnapshot.forEach(function(doc) {
+                        count += 1;
+                        let Celula = doc.data();
+                        Celula.id = doc.id;
+
+                        vm.Sectores.find((sector) => {
+                            if(sector.Sector == Celula.Sector){
+                                sector.SubSectores.find((subsector) => {
+                                    if(subsector.SubSector == Celula.SubSector)
+                                        subsector.Celulas.push(Celula);
+                                });
+                            }
+                        });
+
+                        if(count >= querySnapshot.docs.length){
+                            console.log('finished Celulas');
+                            vm.Loader.Close();
+                            vm.isLoading = false;                     
+                        }
+                    })
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                    vm.Loader.Close();
                 });
             },
             Delete(id){
@@ -204,6 +286,9 @@
                         vm.isLoading = true;
                         vm.API.GetSubSectoresRef().doc(String(id)).delete().then(function() {
                             console.log("Document successfully deleted!");
+                            vm.Sectores.forEach((sector) => {
+                                sector.SubSectores = []
+                            })
                             vm.LoadSubSector()
                         }).catch(function(error) {
                             console.error("Error removing document: ", error);
