@@ -183,10 +183,14 @@
                         let sector = doc.data()
                         vm.Sectores.push(sector);
                         if(count >= querySnapshot.docs.length){
-                            console.log('finished Sectores');
+                            //console.log('finished Sectores');
                             vm.LoadSubSector()
                         }
                     });
+                     if(querySnapshot.docs.length == 0){
+                            //console.log('finished Sectores');
+                            vm.Loader.Close()
+                        }
                 })
                 .catch(function(error) {
                     console.log("Error getting documents: ", error);
@@ -208,12 +212,16 @@
                         });
 
                         if(count >= querySnapshot.docs.length){
-                            console.log('finished Subs');                
+                            //console.log('finished Subs');                
                             vm.LoadCelulas()
                             vm.Loader.Close();
                             vm.isLoading = false;
                         }
                     });
+                    if(querySnapshot.docs.length == 0){
+                            //console.log('finished Sectores');
+                            vm.Loader.Close()
+                        }
                 })
                 .catch(function(error) {
                     console.log("Error getting documents: ", error);

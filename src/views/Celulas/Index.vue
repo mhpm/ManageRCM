@@ -76,7 +76,7 @@
                 vm.API.GetCelulasInfoRef().orderBy("Celula", 'asc').get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
                             let celula = doc.data();
-                            celula.id = doc.id;                      
+                            celula.id = doc.id;               
                             vm.Celulas.push(celula);
                     });
                     vm.Loader.Close();

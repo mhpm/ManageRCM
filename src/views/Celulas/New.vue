@@ -27,40 +27,41 @@
                 </div>
                 <div class="field">
                     <p class="control has-icons-left">
-                        <input v-model="lider" class="input is-medium" type="text" placeholder="Lider">
-                        <span class="icon is-small is-left">
-                            <icon name="user" />
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input v-model="supervisor" class="input is-medium" type="text" placeholder="Supervisor">
+                        <input v-model="docData.Lider.nombre" class="input is-medium" type="text" placeholder="Lider">
                         <span class="icon is-small is-left">
                             <icon name="user-circle" />
                         </span>
                     </p>
                 </div>
-                <!-- <div class="field">
+                <div class="field">
                     <p class="control has-icons-left">
-                        <input v-model="sector" class="input is-medium" type="number" placeholder="Sector">
+                        <input v-model="docData.Asistente.nombre" class="input is-medium" type="text" placeholder="Asistente">
                         <span class="icon is-small is-left">
-                            <icon name="hashtag" />
+                            <icon name="user" />
                         </span>
                     </p>
                 </div>
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input v-model="subsector" class="input is-medium" type="number" placeholder="Subsector">
-                        <span class="icon is-small is-left">
-                            <icon name="hashtag" />
-                        </span>
-                    </p>
-                </div> -->
-
+                <div class="columns">
+                    <div class="column is-6">
+                        <b-field label="Sector" :type="typeSec" :message="smgSec">
+                            <b-select icon="person" v-model="sector" placeholder="Select a character" :loading="isLoading" @input="GetSubSectoresBySector(sector)">
+                                <option  v-for="sector in Sectores" :key="sector.Sector">{{sector.Sector}}</option>
+                            </b-select>
+                        </b-field>
+                    </div>
+                    <div class="column is-6">
+                        <b-field label="SubSector">
+                            <b-select v-model="subsector" placeholder="Select a character" :loading="isLoading">
+                                <option  v-for="subsector in SubSectores" :key="subsector.SubSector">{{subsector.SubSector}}</option>
+                            </b-select>
+                        </b-field>
+                    </div>
+                </div>
+                <p v-if="smgSec=='Sin Sectores'">Aún no tienes sectores. <router-link to="../Sectores">ir a Crear Sector</router-link></p>
+                <p v-else-if="smgSec=='Sector aún sin Subsectores'">Aún no tienes subsectores. <router-link to="../Sectores">ir a Crear SubSector</router-link></p> <br>
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control">
-                        <button @click="SaveData" class="button is-success" :disabled="celula=='' || lider=='' || supervisor=='' || celulaError">
+                        <button @click="SaveData" class="button is-success" :disabled="celula=='' || docData.Lider.nombre=='' || celulaError">
                             Agregar
                         </button>
                     </p>
@@ -81,10 +82,15 @@
     export default {
         data(){
             return{
+                isLoading: true,
                 celulaError:false,
+                Sectores:[],
+                SubSectores:[],
                 msg:'',
+                smgSec:'',
                 celula:'',
                 lider:'',
+                typeSec:'',
                 supervisor:'',
                 sector:'',
                 subsector:'',
@@ -136,19 +142,101 @@
                 }
             }
         },
+        created(){
+            setTimeout(() => {
+                this.LoadData()
+            }, 1000);
+            
+        },
         mounted(){
             this.Loader = this.$refs.pageloader;
             this.API = this.$refs.api;
         },
         methods:{
+            LoadData(){
+                this.LoadSectores()
+            },
+            LoadSectores(){
+                 var vm = this;
+                vm.Sectores=[]
+                vm.API.GetSectoresRef().orderBy("Sector", 'asc').get().then(function(querySnapshot) {
+                    let count = 0;
+                    querySnapshot.forEach(function(doc) {
+                        count += 1;       
+                        let sector = doc.data()
+                        vm.Sectores.push(sector);
+                        if(count >= querySnapshot.docs.length){
+                            //console.log('finished Sectores');
+                            vm.LoadSubSector()
+                        }
+                    });
+                    if(querySnapshot.docs.length == 0){
+                         vm.smgSec = "Sin Sectores";
+                        vm.typeSec = 'is-danger';
+                        vm.isLoading = false
+                    }
+                    else{
+                        vm.smgSec = '';
+                        vm.typeSec = '';
+                    }
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                    vm.Loader.Close();
+                });
+            },
+            LoadSubSector(){
+               var vm = this
+                vm.API.GetSubSectoresRef().get().then(function(querySnapshot) {
+                    let count = 0;
+                    querySnapshot.forEach(function(doc) {
+                        count += 1;
+                        let subsector = doc.data();
+                        subsector.id = doc.id;
+
+                        vm.Sectores.find((sector) => {
+                            if(sector.Sector == subsector.Sector)
+                                sector.SubSectores.push(subsector)
+                        });
+
+                        if(count >= querySnapshot.docs.length){            
+                            vm.isLoading = false;
+                        }
+                    });
+                     if(querySnapshot.docs.length == 0){
+                        vm.isLoading = false
+                    }
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                    vm.Loader.Close();
+                });
+            },
+            GetSubSectoresBySector(sectorId){
+                let vm = this
+                vm.isLoading = true
+                vm.Sectores.forEach((sector) => {
+                    if(sector.Sector == sectorId){
+                        vm.SubSectores = sector.SubSectores;
+                        vm.isLoading = false
+                        if(vm.SubSectores.length == 0){
+                            vm.smgSec = 'Sector aún sin Subsectores';
+                            vm.typeSec = 'is-danger';
+                        }
+                        else{
+                            vm.smgSec = '';
+                            vm.typeSec = '';
+                        }
+                    }
+                    vm.isLoading = false
+                });
+            },
             SaveData(){
                 var vm = this;
                 vm.Loader.Active('Guardando');
-                vm.docData.Lider.nombre = vm.lider;
                 vm.docData.Celula = parseInt(vm.celula);
-                // vm.docData.Sector = parseInt(vm.sector);
-                // vm.docData.SubSector = parseInt(vm.subsector);
-                vm.docData.Supervisor = vm.supervisor;
+                vm.docData.Sector = parseInt(vm.sector);
+                vm.docData.SubSector = parseInt(vm.subsector);
                 vm.API.GetCelulasInfoRef().doc().set(vm.docData).then(function() {
                     console.log("Document successfully written!");
                     vm.msg = 'Datos Guardados!';
@@ -175,8 +263,8 @@
                 this.celula = '';
                 this.lider = '';
                 this.supervisor = '';
-                // this.sector = '';
-                // this.subsector = '';
+                this.sector = '';
+                this.subsector = '';
             }
         }
     }

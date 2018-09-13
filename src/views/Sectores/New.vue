@@ -120,8 +120,8 @@
             },
             CleanForm(){
                 this.Sector = '';
-                this.docData ={
-                    Sector:'',
+                this.docData = {
+                    Sector:null,
                     Supervisor:{
                         Nombre:'',
                         Telefono:'',
@@ -132,7 +132,7 @@
                         Telefono:'',
                         Email:''
                     },
-                    Celulas:[]
+                    SubSectores:[]
                 }
             }
         }

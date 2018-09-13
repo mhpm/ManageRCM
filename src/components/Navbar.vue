@@ -12,19 +12,19 @@
         </div>
         <div id="navbarItems" v-bind:class="['navbar-menu', menuActive?'is-active':'']">
         <div class="navbar-start">
-            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Dashboard">
+            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="../Dashboard">
                 Dashboard
             </router-link>
-            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Sectores">
+            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="../Sectores">
                 Sectores
             </router-link>
-             <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="SubSectores">
+             <!-- <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="../SubSectores">
                 SubSectores
-            </router-link>
-            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Celulas">
+            </router-link> -->
+            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="../Celulas">
                 Celulas
             </router-link>
-            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="Amigos">
+            <router-link v-if="IsAdmin" class="navbar-item has-text-dark" to="../Amigos">
                 Amigos
             </router-link>
             <div class="navbar-item has-dropdown is-hoverable">
@@ -42,7 +42,7 @@
                         Amigos Anotados
                     </router-link>
                     <span class="navbar-item has-text-primary">
-                        Version 3.8.0
+                        Version 3.10.0
                     </span>
                 </div>
             </div>
