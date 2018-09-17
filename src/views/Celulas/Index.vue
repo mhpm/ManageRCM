@@ -18,14 +18,14 @@
                     <tr>
                         <th>Celula</th>
                         <th>Lider</th>
-                        <th>Supervisor</th>
+                        <th>Asistente</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
                     <tr v-for="(celula, index) in Celulas" :key="index">
                         <td>{{celula.Celula}}</td>
                         <td>{{celula.Lider.nombre}}</td>
-                        <td>{{celula.Supervisor}}</td>
+                        <td>{{celula.Asistente.nombre}}</td>
                         <td>
                             <router-link v-bind:to="'CelulasEdit/'+celula.id" class="button is-warning">
                                 <span class="icon is-small">

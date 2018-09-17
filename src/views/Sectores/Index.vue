@@ -9,7 +9,7 @@
         </div>
         <div class="columns is-centered">
             <div class="column is-6">
-                <app-alert :msg="'Total Sectores: ' + Sectores.length"/>
+                <app-alert :msg="'Sectores: ' + Sectores.length" :msgDesc="'SubSectores: ' + SubSectores.length + ' - Celulas: ' + Celulas.length"/>
             </div>
         </div>
 
@@ -65,17 +65,13 @@
                             <div class="media-content">
                                 <div class="content">
 
-                                   <b-table :data="props.row.SubSectores" :loading="isLoading" narrowed detailed>
+                                   <b-table :data="props.row.SubSectores" :loading="isLoading" narrowed detailed default-sort-direction="asc">
                                         <template slot-scope="subs">
                                             <b-table-column field="SubSector" label="SubSector" width="40" numeric sortable>
                                                 {{ subs.row.SubSector }}
                                             </b-table-column>
 
-                                            <b-table-column field="Supervisor.Nombre" label="Supervior" sortable>
-                                                {{ subs.row.Supervisor.Nombre }}
-                                            </b-table-column>
-
-                                            <b-table-column field="Supervisor.Auxiliar" label="Auxiliar" sortable>
+                                            <b-table-column field="Supervisor.Auxiliar" label="Supervisor Auxiliar" sortable>
                                                 {{ subs.row.Auxiliar.Nombre }}
                                             </b-table-column>
 
@@ -98,12 +94,12 @@
                                             <article class="media">
                                                 <div class="media-content">
                                                     <div class="content">
-                                                        <b-table :data="subs.row.Celulas">
+                                                        <b-table :data="subs.row.Celulas" narrowed>
                                                             <template slot-scope="celulas">
                                                                  <b-table-column field="" label="">
                                                                     
                                                                 </b-table-column>
-                                                                <b-table-column field="Celula" label="Celula" width="40" sortable numeric>
+                                                                <b-table-column field="Celula" label="Celula" width="30" sortable numeric>
                                                                     {{ celulas.row.Celula }}
                                                                 </b-table-column>
                                                                 <b-table-column field="Lider.nombre" label="Lider">
@@ -111,6 +107,12 @@
                                                                 </b-table-column>
                                                                 <b-table-column field="Asistente.nombre" label="Asistente">
                                                                     {{ celulas.row.Asistente.nombre }}
+                                                                </b-table-column>
+                                                                 <b-table-column field="" label="">
+                                                                    
+                                                                </b-table-column>
+                                                                 <b-table-column field="" label="">
+                                                                    
                                                                 </b-table-column>
                                                             </template>
                                                         </b-table>
@@ -139,6 +141,7 @@
             return{
                 Sectores:[],
                 SubSectores:[],
+                Celulas:[],
                 isLoading: false,
                 celulaColumns:[
                     {
@@ -199,7 +202,7 @@
             },
             LoadSubSector(){
                var vm = this
-                vm.API.GetSubSectoresRef().get().then(function(querySnapshot) {
+                vm.API.GetSubSectoresRef().orderBy("SubSector", 'asc').get().then(function(querySnapshot) {
                     let count = 0;
                     querySnapshot.forEach(function(doc) {
                         count += 1;
@@ -210,6 +213,7 @@
                             if(sector.Sector == subsector.Sector)
                                 sector.SubSectores.push(subsector)
                         });
+                        vm.SubSectores.push(subsector)
 
                         if(count >= querySnapshot.docs.length){
                             //console.log('finished Subs');                
@@ -245,6 +249,7 @@
                                 });
                             }
                         });
+                        vm.Celulas.push(Celula)
 
                         if(count >= querySnapshot.docs.length){
                             console.log('finished Celulas');

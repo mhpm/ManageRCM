@@ -28,16 +28,7 @@
                      <p class="help has-text-danger" v-show="SubExists">{{SubExists}} Ya existe un Subsector {{SubSector}} en el Sector {{id}}</p>
                 </div>
                 <div class="field">
-                    <span class="label">Supervisor</span>
-                    <p class="control has-icons-left">
-                        <input v-model="docData.Supervisor.Nombre" class="input is-medium" type="email" placeholder="Nombre">
-                        <span class="icon is-small is-left">
-                            <icon name="user" />
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                    <span class="label">Sup. Auxiliar</span>
+                    <span class="label">Supervisor Auxiliar</span>
                     <p class="control has-icons-left">
                         <input v-model="docData.Auxiliar.Nombre" class="input is-medium" type="text" placeholder="Nombre">
                         <span class="icon is-small is-left">
@@ -45,23 +36,9 @@
                         </span>
                     </p>
                 </div>
-                <div class="field">
-                    <span class="label">Asignar a Sector: {{id}}</span>
-                    <!-- <p class="control has-icons-left">
-                        <span class="select is-medium">
-                        <select v-model="docData.Sector" v-on:change="onSelectSector">
-                            <option v-for="sector in Sectores" :key="sector.Sector">{{sector.Sector}}</option>
-                        </select>
-                        </span>
-                        <span class="icon is-small is-left">
-                            <icon name="hashtag" />
-                        </span>
-                    </p>
-                    <p v-if="selectedSector" class="help">Supervisor de Sector: {{selectedSector[0].Supervisor.Nombre}}</p> -->
-                </div>
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control">
-                        <button @click="SaveData" class="button is-success" :disabled="docData.SubSector=='' || docData.Supervisor.Nombre=='' || docData.Auxiliar.Nombre=='' || SubExists || SubSector == ''">
+                        <button @click="SaveData" class="button is-success" :disabled="docData.SubSector=='' || docData.Auxiliar.Nombre=='' || SubExists || SubSector == ''">
                             Agregar
                         </button>
                     </p>
@@ -90,11 +67,6 @@
                 docData:{
                     Sector:null,
                     SubSector:null,
-                    Supervisor:{
-                        Nombre:'',
-                        Telefono:'',
-                        Email:''
-                    },
                     Auxiliar:{
                         Nombre:'',
                         Telefono:'',
@@ -152,11 +124,6 @@
                 this.SubSector = '';
                 this.docData ={
                     SubSector:null,
-                    Supervisor:{
-                        Nombre:'',
-                        Telefono:'',
-                        Email:''
-                    },
                     Auxiliar:{
                         Nombre:'',
                         Telefono:'',

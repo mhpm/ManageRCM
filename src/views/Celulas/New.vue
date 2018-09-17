@@ -43,22 +43,22 @@
                 </div>
                 <div class="columns">
                     <div class="column is-6">
-                        <b-field label="Sector" :type="typeSec" :message="smgSec">
-                            <b-select icon="person" v-model="sector" placeholder="Select a character" :loading="isLoading" @input="GetSubSectoresBySector(sector)">
+                        <b-field label="Sector" :type="typeSec" :message="msgSec">
+                            <b-select v-model="sector" placeholder="Select a character" :loading="isLoading" @input="GetSubSectoresBySector(sector)">
                                 <option  v-for="sector in Sectores" :key="sector.Sector">{{sector.Sector}}</option>
                             </b-select>
                         </b-field>
                     </div>
                     <div class="column is-6">
-                        <b-field label="SubSector">
+                        <b-field label="SubSector" :message="msgSub">
                             <b-select v-model="subsector" placeholder="Select a character" :loading="isLoading">
-                                <option  v-for="subsector in SubSectores" :key="subsector.SubSector">{{subsector.SubSector}}</option>
+                                <option  v-for="subsector in SubSectores" :key="subsector.SubSector">{{subsector.SubSector}}: {{subsector.Auxiliar.Nombre}}</option>
                             </b-select>
                         </b-field>
                     </div>
                 </div>
-                <p v-if="smgSec=='Sin Sectores'">Aún no tienes sectores. <router-link to="../Sectores">ir a Crear Sector</router-link></p>
-                <p v-else-if="smgSec=='Sector aún sin Subsectores'">Aún no tienes subsectores. <router-link to="../Sectores">ir a Crear SubSector</router-link></p> <br>
+                <p v-if="msgSec=='Sin Sectores'">Aún no tienes sectores. <router-link to="../Sectores">ir a Crear Sector</router-link></p>
+                <p v-else-if="msgSec=='Sector aún sin Subsectores'">Aún no tienes subsectores. <router-link to="../Sectores">ir a Crear SubSector</router-link></p> <br>
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control">
                         <button @click="SaveData" class="button is-success" :disabled="celula=='' || docData.Lider.nombre=='' || celulaError">
@@ -87,7 +87,8 @@
                 Sectores:[],
                 SubSectores:[],
                 msg:'',
-                smgSec:'',
+                msgSec:'',
+                msgSub:'',
                 celula:'',
                 lider:'',
                 typeSec:'',
@@ -171,12 +172,12 @@
                         }
                     });
                     if(querySnapshot.docs.length == 0){
-                         vm.smgSec = "Sin Sectores";
+                         vm.msgSec = "Sin Sectores";
                         vm.typeSec = 'is-danger';
                         vm.isLoading = false
                     }
                     else{
-                        vm.smgSec = '';
+                        vm.msgSec = '';
                         vm.typeSec = '';
                     }
                 })
@@ -187,7 +188,7 @@
             },
             LoadSubSector(){
                var vm = this
-                vm.API.GetSubSectoresRef().get().then(function(querySnapshot) {
+                vm.API.GetSubSectoresRef().orderBy("SubSector", 'asc').get().then(function(querySnapshot) {
                     let count = 0;
                     querySnapshot.forEach(function(doc) {
                         count += 1;
@@ -220,11 +221,11 @@
                         vm.SubSectores = sector.SubSectores;
                         vm.isLoading = false
                         if(vm.SubSectores.length == 0){
-                            vm.smgSec = 'Sector aún sin Subsectores';
+                            vm.msgSec = 'Sector aún sin Subsectores';
                             vm.typeSec = 'is-danger';
                         }
                         else{
-                            vm.smgSec = '';
+                            vm.msgSec = "Sup: " + sector.Supervisor.Nombre;
                             vm.typeSec = '';
                         }
                     }
@@ -261,8 +262,8 @@
             },
             CleanForm(){
                 this.celula = '';
-                this.lider = '';
-                this.supervisor = '';
+                 this.docData.Lider.nombre = '';
+                this.docData.Asistente.nombre = '';
                 this.sector = '';
                 this.subsector = '';
             }
